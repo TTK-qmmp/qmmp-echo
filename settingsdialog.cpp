@@ -19,7 +19,11 @@ SettingsDialog::SettingsDialog(QWidget *parent)
     m_ui.feedSlider->setRange(0, 100);
     m_ui.volumeSlider->setRange(0, 100);
 
+#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
+    QSettings settings;
+#else
     QSettings settings(Qmmp::configFile(), QSettings::IniFormat);
+#endif
     m_delay = settings.value("Echo/delay", 500).toUInt();
     m_feedback = settings.value("Echo/feedback", 50).toUInt();
     m_volume = settings.value("Echo/volume", 50).toUInt();
@@ -31,7 +35,11 @@ SettingsDialog::SettingsDialog(QWidget *parent)
 
 void SettingsDialog::accept()
 {
+#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
+    QSettings settings;
+#else
     QSettings settings(Qmmp::configFile(), QSettings::IniFormat);
+#endif
     settings.setValue("Echo/delay", m_ui.delaySlider->value());
     settings.setValue("Echo/feedback", m_ui.feedSlider->value());
     settings.setValue("Echo/volume", m_ui.volumeSlider->value());
