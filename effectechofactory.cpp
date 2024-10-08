@@ -4,7 +4,11 @@
 
 #include <QMessageBox>
 
+#if (QMMP_VERSION_INT < 0x10700) || (0x20000 <= QMMP_VERSION_INT && QMMP_VERSION_INT < 0x20200)
 const EffectProperties EffectEchoFactory::properties() const
+#else
+EffectProperties EffectEchoFactory::properties() const
+#endif
 {
     EffectProperties properties;
     properties.name = tr("Echo Plugin");
@@ -19,10 +23,17 @@ Effect *EffectEchoFactory::create()
     return new EchoPlugin();
 }
 
+#if (QMMP_VERSION_INT < 0x10700) || (0x20000 <= QMMP_VERSION_INT && QMMP_VERSION_INT < 0x20200)
 void EffectEchoFactory::showSettings(QWidget *parent)
 {
     (new SettingsDialog(parent))->show();
 }
+#else
+QDialog *EffectEchoFactory::createSettings(QWidget *parent)
+{
+    return new SettingsDialog(parent);
+}
+#endif
 
 void EffectEchoFactory::showAbout(QWidget *parent)
 {
