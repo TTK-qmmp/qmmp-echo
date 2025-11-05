@@ -19,9 +19,9 @@ SettingsDialog::SettingsDialog(QWidget *parent)
     m_ui.volumeSlider->setRange(0, 100);
 
 #if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
-    QSettings settings;
+    const QSettings settings;
 #else
-    QSettings settings(Qmmp::configFile(), QSettings::IniFormat);
+    const QSettings settings(Qmmp::configFile(), QSettings::IniFormat);
 #endif
     m_delay = settings.value("Echo/delay", 500).toUInt();
     m_feedback = settings.value("Echo/feedback", 50).toUInt();
